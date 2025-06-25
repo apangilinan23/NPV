@@ -1,4 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
+using NPV.Server.Services;
+using System.Threading.Tasks;
 
 namespace NPV.Server.Controllers
 {
@@ -7,16 +9,19 @@ namespace NPV.Server.Controllers
     public class NPVController : ControllerBase
     {
         private readonly ILogger<NPVController> _logger;
+        private INPVCalculatorService _calculatorService;
 
-        public NPVController(ILogger<NPVController> logger)
+        public NPVController(ILogger<NPVController> logger,
+            INPVCalculatorService calculatorService)
         {
             _logger = logger;
+            _calculatorService = calculatorService;
         }
 
-        [HttpGet]
-        public NPVViewModel Get()
+        [HttpPost]
+        public async Task<NPVViewModel> Calculate(NPVViewModel model)
         {
-            return new NPVViewModel();
+            return await _calculatorService.GetResults(model);
         }
     }
 }
