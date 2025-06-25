@@ -1,0 +1,6 @@
+@NPV.Server_HostAddress = http://localhost:5139
+
+GET {{NPV.Server_HostAddress}}/npv/
+Accept: application/json
+
+###
