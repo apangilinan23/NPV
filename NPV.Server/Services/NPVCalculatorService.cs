@@ -1,4 +1,6 @@
-﻿namespace NPV.Server.Services
+﻿using Microsoft.VisualBasic;
+
+namespace NPV.Server.Services
 {
     public class NPVCalculatorService : INPVCalculatorService
     {
@@ -6,6 +8,8 @@
         {  
             await Task.Run(() =>
             {
+                //Financial.NPV
+
                 for (var start = model.LowerBound; start <= model.UpperBound; start += model.Increment)
                 {
                     var value = model.CashFlow + (model.CashFlow * (start / 100));
