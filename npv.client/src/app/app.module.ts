@@ -4,14 +4,17 @@ import { BrowserModule } from '@angular/platform-browser';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { CommonModule } from '@angular/common';
+import { ResultsComponent } from './results-component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    ResultsComponent
   ],
   imports: [
     BrowserModule, HttpClientModule,
-    AppRoutingModule, ReactiveFormsModule
+    AppRoutingModule, ReactiveFormsModule, CommonModule
   ],
   providers: [],
   bootstrap: [AppComponent]

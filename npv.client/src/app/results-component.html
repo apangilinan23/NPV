@@ -1,1 +1,19 @@
-﻿hello world!
+﻿<div class="col mt-5">
+    <table class="table table-light">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Discount Rate (%)</th>
+                <th scope="col">NPV</th>
+                <!-- <th scope="col">Positive/Negative</th>                 -->
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of results; let i=index">
+                <th scope="col">{{i + 1}}</th>
+                <td>{{item.discountRate}}</td>
+                <td>{{item.npv}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

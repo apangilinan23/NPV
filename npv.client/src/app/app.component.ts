@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormArray, FormGroup } from '@angular/forms';
-import { NpvViewModel } from './npv-view-model'
+import { Location } from '@angular/common';
 import { NpvResultViewModel } from './npv-result-view-model'
 
 
@@ -18,7 +18,8 @@ export class AppComponent implements OnInit {
 
   constructor(private http: HttpClient,
     private router: Router,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private location: Location
   ) {
   }
 
@@ -91,7 +92,7 @@ export class AppComponent implements OnInit {
         this.npvResults = result;
         this.npvForm.value.cashFlowArray = [];
         const serializedItems = JSON.stringify(this.npvResults);
-        this.router.navigate(['results-component'], {queryParams: {data: serializedItems}})
+        this.router.navigate(['results-component'], { queryParams: { data: serializedItems } })
           .catch((err) => {
             console.log(err)
           }).then(() => {
@@ -107,4 +108,9 @@ export class AppComponent implements OnInit {
   }
 
   title = 'npv.client';
+
+  clear() {
+    this.location.replaceState('');
+    window.location.reload();
+  }
 }
