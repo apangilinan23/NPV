@@ -3,6 +3,7 @@ export interface NpvViewModel {
   lowerBound: number;
   upperBound: number;
   increment: number;
-  cashFlows: number[];
+  cashFlows: number[];  
+  npvResults: number [];
   cashFlowNumber: number;
 }

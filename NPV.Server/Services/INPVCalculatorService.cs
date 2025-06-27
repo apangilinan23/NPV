@@ -1,8 +1,10 @@
-﻿namespace NPV.Server.Services
+﻿using NPV.Server.Models;
+
+namespace NPV.Server.Services
 {
     public interface INPVCalculatorService
     {
-        public NPVViewModel GetResults(NPVViewModel model);
+        public List<NPVResultViewModel> Calculate(NPVViewModel model);
     }
 }
     

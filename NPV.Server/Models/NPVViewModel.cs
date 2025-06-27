@@ -1,8 +1,8 @@
-namespace NPV.Server
+namespace NPV.Server.Models
 {
     public class NPVViewModel
     {
-        public NPVViewModel() 
+        public NPVViewModel()
         {
             CashFlowArray = new List<double>();
             NPVResults = new List<double>();

@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using NPV.Server.Models;
 using NPV.Server.Services;
 using System.Threading.Tasks;
 
@@ -19,9 +20,9 @@ namespace NPV.Server.Controllers
         }
 
         [HttpPost]
-        public NPVViewModel Calculate(NPVViewModel model)
+        public List<NPVResultViewModel> Calculate(NPVViewModel model)
         {
-            return _calculatorService.GetResults(model);
+            return _calculatorService.Calculate(model);
         }
     }
 }

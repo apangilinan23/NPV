@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormArray, FormGroup } from '@angular/forms';
 import { NpvViewModel } from './npv-view-model'
+import { NpvResultViewModel } from './npv-result-view-model'
 
 
 @Component({
@@ -11,20 +12,14 @@ import { NpvViewModel } from './npv-view-model'
   styleUrl: './app.component.css'
 })
 export class AppComponent implements OnInit {
-  public results: NpvViewModel = {
-    investment: 0,
-    increment: 0,
-    lowerBound: 0,
-    upperBound: 0,
-    cashFlows: [],
-    cashFlowNumber: 0
-  };  
-  npvForm : any;
+  npvForm: any;
+
+  npvResults: NpvResultViewModel[] = [];
 
   constructor(private http: HttpClient,
     private router: Router,
     private formBuilder: FormBuilder
-  ) {     
+  ) {
   }
 
   ngOnInit() {
@@ -82,7 +77,7 @@ export class AppComponent implements OnInit {
   }
 
   onSubmit() {
-    
+
     const cashFlowList = document.querySelectorAll('.cash-flow-item');
 
     cashFlowList.forEach((element: Element) => {
@@ -90,10 +85,19 @@ export class AppComponent implements OnInit {
       this.npvForm.value.cashFlowArray.push(parseFloat(valElem.value));
     });
 
-    this.http.post<NpvViewModel>('/npv', this.npvForm.value).subscribe(
+    this.http.post<NpvResultViewModel[]>('/npv', this.npvForm.value).subscribe(
       (result) => {
-        this.results = result;
+        debugger;
+        this.npvResults = result;
         this.npvForm.value.cashFlowArray = [];
+        const serializedItems = JSON.stringify(this.npvResults);
+        this.router.navigate(['results-component'], {queryParams: {data: serializedItems}})
+          .catch((err) => {
+            console.log(err)
+          }).then(() => {
+            // this.onEdit.emit(true)
+          });
+
       },
       (error) => {
         console.error(error);

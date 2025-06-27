@@ -1,18 +1,26 @@
 ﻿using Microsoft.VisualBasic;
+using NPV.Server.Models;
 
 namespace NPV.Server.Services
 {
     public class NPVCalculatorService : INPVCalculatorService
     {
-        public NPVViewModel GetResults(NPVViewModel model)
-        {   
+        public List<NPVResultViewModel> Calculate(NPVViewModel model)
+        {
+            var result = new List<NPVResultViewModel>();
             var cashFlowValues = model.CashFlowArray.ToArray();
             for (var start = model.LowerBound; start <= model.UpperBound; start += model.Increment)
             {
                 float discountRate = (float)(start / 100);
-                model.NPVResults.Add(-model.Investment + Financial.NPV(discountRate, ref cashFlowValues)); 
+                var npv = Financial.NPV(discountRate, ref cashFlowValues);
+
+                result.Add(new NPVResultViewModel
+                {
+                    DiscountRate = discountRate,
+                    NPV = -model.Investment + npv
+                });
             }
-            return model;
+            return result;
         }
 
     }
