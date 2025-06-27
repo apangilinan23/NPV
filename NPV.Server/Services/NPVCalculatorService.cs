@@ -4,19 +4,14 @@ namespace NPV.Server.Services
 {
     public class NPVCalculatorService : INPVCalculatorService
     {
-        public async Task<NPVViewModel> GetResults(NPVViewModel model)
-        {  
-            await Task.Run(() =>
+        public NPVViewModel GetResults(NPVViewModel model)
+        {   
+            var cashFlowValues = model.CashFlowArray.ToArray();
+            for (var start = model.LowerBound; start <= model.UpperBound; start += model.Increment)
             {
-                //Financial.NPV
-
-                for (var start = model.LowerBound; start <= model.UpperBound; start += model.Increment)
-                {
-                    var value = model.CashFlow + (model.CashFlow * (start / 100));
-                    model.Values.Add(value);
-                }
-            });
-
+                float discountRate = (float)(start / 100);
+                model.NPVResults.Add(-model.Investment + Financial.NPV(discountRate, ref cashFlowValues)); 
+            }
             return model;
         }
 

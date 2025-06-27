@@ -19,9 +19,9 @@ namespace NPV.Server.Controllers
         }
 
         [HttpPost]
-        public async Task<NPVViewModel> Calculate(NPVViewModel model)
+        public NPVViewModel Calculate(NPVViewModel model)
         {
-            return await _calculatorService.GetResults(model);
+            return _calculatorService.GetResults(model);
         }
     }
 }

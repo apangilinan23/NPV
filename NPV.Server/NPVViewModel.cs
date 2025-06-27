@@ -4,9 +4,10 @@ namespace NPV.Server
     {
         public NPVViewModel() 
         {
-            Values = new List<double>();
+            CashFlowArray = new List<double>();
+            NPVResults = new List<double>();
         }
-        public double CashFlow { get; set; }
+        public double Investment { get; set; }
 
         public double UpperBound { get; set; }
 
@@ -14,6 +15,8 @@ namespace NPV.Server
 
         public int Increment { get; set; }
 
-        public List<double> Values { get; set; }
+        public List<double> CashFlowArray { get; set; }
+
+        public List<double> NPVResults { get; set; }
     }
 }

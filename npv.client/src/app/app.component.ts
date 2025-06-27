@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, FormArray, FormGroup } from '@angular/forms';
 import { NpvViewModel } from './npv-view-model'
 
 
@@ -16,67 +16,84 @@ export class AppComponent implements OnInit {
     increment: 0,
     lowerBound: 0,
     upperBound: 0,
-    cashFlows: []
-  };
-
-  npvForm = this.formBuilder.group({
-    investment: 0,
-    lowerBound: 0,
-    upperBound: 0,
-    increment: 0
-  });
+    cashFlows: [],
+    cashFlowNumber: 0
+  };  
+  npvForm : any;
 
   constructor(private http: HttpClient,
     private router: Router,
     private formBuilder: FormBuilder
-  ) { }
+  ) {     
+  }
 
   ngOnInit() {
-    const incrementInput = document.getElementById('increment') as HTMLInputElement;
+    this.npvForm = this.formBuilder.group({
+      investment: 0,
+      lowerBound: 0,
+      upperBound: 0,
+      increment: 0,
+      cashFlowNumber: 0,
+      cashFlowArray: this.formBuilder.array([])
+    });
 
-    if (incrementInput) {
-      incrementInput.addEventListener('change', (event: Event) => {
+
+    const cashFlowNumber = document.getElementById('cashFlowNumber') as HTMLInputElement;
+
+    if (cashFlowNumber) {
+      cashFlowNumber.addEventListener('change', (event: Event) => {
         const target = event.target as HTMLInputElement;
         const newValue = parseFloat(target.value); // Convert to number
 
         if (!isNaN(newValue)) {
-          setTimeout(this.generateCashFlowInput, 500);
+          setTimeout(this.generateCashFlowInput, 50, parseInt(cashFlowNumber.value));
+        }
+      });
+
+      cashFlowNumber.addEventListener('keyup', (event: Event) => {
+        const target = event.target as HTMLInputElement;
+        const newValue = parseFloat(target.value); // Convert to number
+
+        if (!isNaN(newValue)) {
+          setTimeout(this.generateCashFlowInput, 50, parseInt(cashFlowNumber.value));
         }
       });
     }
   }
 
-  generateCashFlowInput() {
-    debugger;
-    let periods = 0;
-    const lowerBoundInput = document.getElementById('lowerBound') as HTMLInputElement;
-    const upperBoundInput = document.getElementById('upperBound') as HTMLInputElement;
-    const incrementInput = document.getElementById('increment') as HTMLInputElement;
+  generateCashFlowInput(cashFlowCount: number) {
     const textBoxContainer = document.getElementById('textBoxContainer') as HTMLDivElement;
 
     textBoxContainer.innerHTML = '';
+    for (let i = 0; i < cashFlowCount; i++) {
 
-    for (var start = parseInt(lowerBoundInput.value); start <= parseInt(upperBoundInput.value); start += parseInt(incrementInput.value)) {
-      periods++;
-    }
+      let newTextBox = document.createElement('input');
+      let newTextBoxDiv = document.createElement('div');
+      newTextBoxDiv.className = 'col';
 
-    
-    for (let i = 0; i < periods; i++) {
-      const newTextBox = document.createElement('input');
       newTextBox.type = 'text';
-      newTextBox.placeholder = `Textbox ${i + 1}`;
-      newTextBox.id = `textBox_${i}`; // Optional: assign unique IDs
-      textBoxContainer.appendChild(newTextBox);
-      textBoxContainer.appendChild(document.createElement('br')); // Optional: add line break
+      newTextBox.id = `cash-flow${i}`;
+      newTextBox.className = 'form-control cash-flow-item';
+
+      newTextBoxDiv.appendChild(newTextBox);
+      textBoxContainer.appendChild(newTextBoxDiv);
     }
 
   }
 
   onSubmit() {
-    debugger;
+    
+    const cashFlowList = document.querySelectorAll('.cash-flow-item');
+
+    cashFlowList.forEach((element: Element) => {
+      let valElem = element as HTMLInputElement
+      this.npvForm.value.cashFlowArray.push(parseFloat(valElem.value));
+    });
+
     this.http.post<NpvViewModel>('/npv', this.npvForm.value).subscribe(
       (result) => {
         this.results = result;
+        this.npvForm.value.cashFlowArray = [];
       },
       (error) => {
         console.error(error);

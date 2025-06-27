@@ -1,5 +1,8 @@
 ﻿.row
 .container {
-    
+    text-align: center;
+}
+
+.textBoxContainer {
     text-align: center;
 }
