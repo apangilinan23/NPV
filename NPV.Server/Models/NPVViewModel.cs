@@ -5,7 +5,6 @@ namespace NPV.Server.Models
         public NPVViewModel()
         {
             CashFlowArray = new List<double>();
-            NPVResults = new List<double>();
         }
         public double Investment { get; set; }
 
@@ -16,7 +15,5 @@ namespace NPV.Server.Models
         public int Increment { get; set; }
 
         public List<double> CashFlowArray { get; set; }
-
-        public List<double> NPVResults { get; set; }
     }
 }
