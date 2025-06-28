@@ -88,8 +88,7 @@ export class AppComponent implements OnInit {
     }
   }
 
-  onSubmit() {
-    debugger;
+  onSubmit() {    
     const cashFlowList = document.querySelectorAll('.cash-flow-item');
     cashFlowList.forEach((element: Element) => {
       let valElem = element as HTMLInputElement
