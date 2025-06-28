@@ -33,7 +33,6 @@ export class AppComponent implements OnInit {
       cashFlowArray: this.formBuilder.array([])
     });
 
-
     const cashFlowNumber = document.getElementById('cashFlowNumber') as HTMLInputElement;
 
     if (cashFlowNumber) {
@@ -70,24 +69,41 @@ export class AppComponent implements OnInit {
       newTextBox.type = 'text';
       newTextBox.id = `cash-flow${i}`;
       newTextBox.className = 'form-control cash-flow-item';
+      newTextBox.setAttribute('placeholder', `Cashflow ${i+1}`);
 
       newTextBoxDiv.appendChild(newTextBox);
       textBoxContainer.appendChild(newTextBoxDiv);
     }
+  }
 
+  validateForm(): boolean {
+    if (this.npvForm.value.increment < 1 || this.npvForm.value.investment < 1
+      || this.npvForm.value.upperBound < 1 || this.npvForm.value.lowerBound < 1
+      || this.npvForm.value.cashFlowNumber < 1 || this.npvForm.value.lowerBound > this.npvForm.value.upperBound
+      || this.npvForm.value.cashFlowArray.some((n: number) => n < 1)
+      || this.npvForm.value.cashFlowArray.some((n: number) => isNaN(n))) {
+      return false;
+    } else {
+      return true;
+    }
   }
 
   onSubmit() {
-
+    debugger;
     const cashFlowList = document.querySelectorAll('.cash-flow-item');
     cashFlowList.forEach((element: Element) => {
       let valElem = element as HTMLInputElement
       this.npvForm.value.cashFlowArray.push(parseFloat(valElem.value));
     });
 
+    if (!this.validateForm()) {
+      alert('Invalid input.');
+      this.npvForm.value.cashFlowArray = [];
+      return;
+    }
+
     this.http.post<NpvResultViewModel[]>('/npv', this.npvForm.value).subscribe(
       (result) => {
-        debugger;
         this.npvResults = result;
         this.npvForm.value.cashFlowArray = [];
         const serializedItems = JSON.stringify(this.npvResults);
@@ -107,6 +123,7 @@ export class AppComponent implements OnInit {
   title = 'npv.client';
 
   clear() {
+    this.npvForm.value.cashFlowArray = [];
     this.location.replaceState('');
     window.location.reload();
   }
