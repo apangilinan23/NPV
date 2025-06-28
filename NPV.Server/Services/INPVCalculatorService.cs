@@ -4,7 +4,7 @@ namespace NPV.Server.Services
 {
     public interface INPVCalculatorService
     {
-        public List<NPVResultViewModel> Calculate(NPVViewModel model);
+        public Task<List<NPVResultViewModel>> Calculate(NPVViewModel model);        
     }
 }
     
