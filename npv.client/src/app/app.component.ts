@@ -80,7 +80,6 @@ export class AppComponent implements OnInit {
   onSubmit() {
 
     const cashFlowList = document.querySelectorAll('.cash-flow-item');
-
     cashFlowList.forEach((element: Element) => {
       let valElem = element as HTMLInputElement
       this.npvForm.value.cashFlowArray.push(parseFloat(valElem.value));
@@ -95,8 +94,6 @@ export class AppComponent implements OnInit {
         this.router.navigate(['results-component'], { queryParams: { data: serializedItems } })
           .catch((err) => {
             console.log(err)
-          }).then(() => {
-            // this.onEdit.emit(true)
           });
 
       },

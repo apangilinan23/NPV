@@ -6,7 +6,7 @@ import { NpvResultViewModel } from './npv-result-view-model';
 @Component({
   selector: 'app-root',
   templateUrl: './results-component.html',
-  styleUrl: './app.component.css'
+  styleUrl: './results-component.css'
 })
 export class ResultsComponent implements OnInit {
   constructor(private route: ActivatedRoute) {

@@ -5,18 +5,16 @@
       <form [formGroup]="npvForm" class="form-horizontal" (ngSubmit)="onSubmit()">
         <div class="form-group">
           <label class="control-label" for="investment">Investment:</label>
-          <input type="number" class="form-control" formControlName="investment" id="investment">
+          <input type="number" class="form-control" formControlName="investment" id="investment" required="">
         </div>
         <div class="form-group">
           <label class="control-label" for="upperBound">Upper bound:</label>
-          <input type="number" class="form-control" formControlName="upperBound" id="upperBound"
-            placeholder="Enter upper bound discount">
+          <input type="number" class="form-control" formControlName="upperBound" id="upperBound">
         </div>
         <div class="form-group">
           <label class="control-label" for="lowerBound">Lower bound:</label>
 
-          <input type="number" class="form-control" formControlName="lowerBound" id="lowerBound"
-            placeholder="Enter lower bound discount">
+          <input type="number" class="form-control" formControlName="lowerBound" id="lowerBound">
         </div>
         <div class="form-group">
           <label class="control-label" for="increment">Increment:</label>
@@ -34,10 +32,10 @@
         </div>
         <div class="form-group">
           <div class="row">
-            <div class="col-sm-2">
+            <div class="col-sm-1">
               <button type="submit" class="btn btn-primary">Submit</button>
             </div>
-            <div class="col-sm-2">
+            <div class="col-sm-1">
               <button type="button" class="btn btn-danger" (click)='clear()'>Clear</button>
             </div>
           </div>
